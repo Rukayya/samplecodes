@@ -1,0 +1,5 @@
+name: Bulk Booking
+type: module
+description: The module provide ability to convert enquiry to booking.
+core_version_requirement: ^8 || ^9
+package: Examples

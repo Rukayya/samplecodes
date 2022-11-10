@@ -1,0 +1,8 @@
+# Schema for the custom action.
+
+action.configuration.convert_enquiry_to_booking:
+  type: action_configuration_default
+  label: 'Convert booking enquiry to booking'
+action.configuration.booking_confirmation:
+  type: action_configuration_default
+  label: 'Change booking status'
