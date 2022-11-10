@@ -1,0 +1,7 @@
+name: 'Vaccination Through Social Media'
+type: module
+description: 'EventSubscriber example.'
+package: 'COVID-19 Vaccination'
+core: 8.x
+dependencies:
+  - social_login
