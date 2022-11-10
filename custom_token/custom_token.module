@@ -1,0 +1,70 @@
+<?php
+/**
+ * @file
+ */
+use Drupal\Core\Render\BubbleableMetadata;
+/**
+ * Implements hook_token_info().
+ */
+function custom_token_token_info() {
+  //Setup up a new type.
+  //The type would be used infront of the token.
+  //E.g custom-type:custom-token, just like site:name
+  $types['custom-type'] = [
+    'name' => t("Custom type"),
+    'description' => t("Custom type grouping for tokens"),
+  ];
+
+  //Setup a custom site wide token.
+  $custom['contact-form-email'] = [
+    'name' => t("Contact form email"),
+    'description' => t("Contact form email"),
+  ];
+
+  $custom['contact-form-email-text'] = [
+    'name' => t("Contact form email text"),
+    'description' => t("Contact form email text for the person who submitted the form."),
+  ];
+
+  return [
+    'types' => $types,
+    'tokens' => [
+      'custom-type' => $custom,
+    ],
+  ];
+}
+
+
+/**
+ * Implements hook_tokens().
+ */
+function custom_token_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
+
+  $replacements = [];
+  //If the type is the one that we want.
+  if ($type == 'custom-type') {
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'contact-form-email':
+          //If token equals the custom token that we setup in the other function.
+          //Grab the value from the general settings config that we want to display when the token is used.
+          $state = \Drupal::state();
+          $bubbleable_metadata->addCacheableDependency($state);
+          //Add the value to the array.
+          $replacements[$original] = $state->get('email');
+          break;
+        case 'contact-form-email-text':
+          //If token equals the custom token that we setup in the other function.
+          //Grab the value from the general settings config that we want to display when the token is used.
+          $state = \Drupal::state();
+          $bubbleable_metadata->addCacheableDependency($state);
+          //Add the value to the array.
+          $replacements[$original] = \Drupal\Core\Render\Markup::create($state->get('email_text'));
+          break;
+      }
+    }
+  }
+
+  //Return the result so that we can now use the token.
+  return $replacements;
+}

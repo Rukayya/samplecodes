@@ -1,0 +1,7 @@
+custom_token.custom_token_form:
+  path: '/admin/config/custom-token'
+  defaults:
+    _form: '\Drupal\custom_token\Form\CustomTokenForm'
+    _title: 'Custom Token Config Form'
+  requirements:
+    _permission: 'access administration pages'
